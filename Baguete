@@ -1,0 +1,110 @@
+import mysql.connector
+from tkinter import *
+from tkinter import messagebox
+tik = Tk()
+tik.geometry("700x900")
+tik.title("Inventory Management")
+
+class Inventory:
+    def __init__(self):
+        self.conn = mysql.connector.connect(
+            host="localhost",
+            user="Admin",
+            password="Admin",
+            database="admin"
+        )
+        self.cur = self.conn.cursor()
+    def popup_message(self):
+        messagebox.showinfo("Note","DONE!")
+
+    def add_p(self):
+        atik = Tk()
+        atik.geometry("600x900")
+        Label(atik, text="Product Name").pack()
+        self.entry_name = Entry(atik)
+        self.entry_name.pack()
+        
+        Label(atik, text="Price").pack()
+        self.entry_price = Entry(atik)
+        self.entry_price.pack()
+        
+        Label(atik, text="Stocks").pack()
+        self.entry_stocks = Entry(atik)
+        self.entry_stocks.pack()
+
+        Label(atik, text="Expiry Date").pack()
+        self.entry_expd = Entry(atik)
+        self.entry_expd.pack()
+
+        Label(atik, text="Category").pack()
+        self.entry_category = Entry(atik)
+        self.entry_category.pack()
+        
+        btn_add = Button(atik, text="Add Product", command= p1.adddd).pack(pady=10)
+        btn_exit = Button(atik, text="Exit", command=atik.destroy)
+        btn_exit.pack(pady=10)
+    def adddd(self):
+        p1.popup_message()
+        self.name = self.entry_name.get()
+        self.price = self.entry_price.get()
+        self.stocks = self.entry_stocks.get()
+        self.expd = self.entry_expd.get()
+        self.category = self.entry_category.get()
+        self.cur.execute(
+            "INSERT INTO breads (name, price, stocks, expd, category) VALUES (%s, %s, %s, %s, %s)",
+            (self.name, self.price, self.stocks, self.expd, self.category)
+        )
+        self.conn.commit()
+    def disp_rec(self):
+        pass
+        '''
+        self.cur.execute("SELECT name, price, stocks, expd, category FROM breads")
+        this = self.cur.fetchall()
+        for n, p, s, e, c in this:
+            print(f"Product: {n} | Price: {p} | Stock: {s} | Expiry: {e} | Category: {c}")
+        '''
+    def up_q(self):
+        pass
+        #self.cur.execute("UPDATE products SET quantity = quantity + %s WHERE name = %s", (quantity, name))
+        #self.conn.commit()
+
+    def del_p(self):
+        pass
+        #self.cur.execute("DELETE FROM products WHERE name = %s", (name,))
+        #self.conn.commit()
+
+    def ser_p(self):
+        pass
+        '''
+        self.cur.execute("SELECT * FROM products WHERE name = %s", (name,))
+        sp = self.cur.fetchall()
+        if not sp:
+            print("No products found")
+        for i, n, p, q in sp:
+            print(f"Id: {i} | Product: {n} | Price: {p} | Stock: {q}")
+        '''
+# ---------------- Tkinter GUI ----------------
+p1 = Inventory()
+
+
+
+btn_add = Button(tik, text="Add Product", command= p1.add_p).pack(pady=10)
+
+
+btn_view = Button(tik, text="View Products", command=p1.disp_rec)
+btn_view.pack(pady=10)
+
+btn_update = Button(tik, text="Update Stock", command=p1.up_q)
+btn_update.pack(pady=10)
+
+btn_delete = Button(tik, text="Delete Product", command=p1.del_p)
+btn_delete.pack(pady=10)
+
+btn_search = Button(tik, text="Search Product", command=p1.ser_p)
+btn_search.pack(pady=10)
+
+btn_exit = Button(tik, text="Exit", command=tik.destroy)
+btn_exit.pack(pady=10)
+
+
+tik.mainloop()
