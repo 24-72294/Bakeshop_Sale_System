@@ -84,7 +84,7 @@ class Inventory:
             print(f"Id: {i} | Product: {n} | Price: {p} | Stock: {q}")
         '''
 # ---------------- Tkinter GUI ----------------
-p1 = Inventory()
+
 
 
 
